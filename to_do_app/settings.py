@@ -42,8 +42,6 @@ INSTALLED_APPS = [
     'to_do.apps.ToDoConfig',
     # Our Users App - Registration, Login etc.,
     'users.apps.UsersConfig',
-    # Crispy Forms - Since it is an installed app, we have to include it here
-    'crispy_forms',
     # Using REST Framework
     'rest_framework',
     'django.contrib.admin',
@@ -53,7 +51,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sitemaps',
-    'storages',
 ]
 
 # Makes the API to show only JSON Data
