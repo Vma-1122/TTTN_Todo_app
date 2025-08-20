@@ -6,3 +6,5 @@ gunicorn
 whitenoise
 dj-database-url
 pillow
+django-crispy-forms
+crispy-bootstrap4

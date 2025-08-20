@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = "RuhpTWx-y6bHyM2BTHqJKq7QesjLfN7No3xALDBHbPDYniq59KU"
 
 
 DEBUG_PROPAGATE_EXCEPTIONS = True
@@ -42,6 +42,9 @@ INSTALLED_APPS = [
     'to_do.apps.ToDoConfig',
     # Our Users App - Registration, Login etc.,
     'users.apps.UsersConfig',
+    # Crispy Forms - Since it is an installed app, we have to include it here
+    'crispy_forms',
+    'crispy_bootstrap4',
     # Using REST Framework
     'rest_framework',
     'django.contrib.admin',
@@ -99,8 +102,7 @@ WSGI_APPLICATION = 'to_do_app.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-database_url = os.environ.get("DATABASE_URL")
-DATABASES["default"] = dj_database_url.parse(database_url)
+DATABASES["default"] = dj_database_url.parse("postgresql://todolist_db_o5n3_user:ITnQTyAGyVoJlWmndWlv7N4iZ8fis4zA@dpg-d2i5gare5dus73eef4vg-a.oregon-postgres.render.com/todolist_db_o5n3")
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
