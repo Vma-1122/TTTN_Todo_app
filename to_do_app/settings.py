@@ -32,7 +32,7 @@ DEBUG_PROPAGATE_EXCEPTIONS = True
 DEBUG = True
 
 
-ALLOWED_HOSTS = ['tttn-to-do-app.onrender.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['tttn-todo-app.onrender.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
