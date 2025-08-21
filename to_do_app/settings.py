@@ -12,31 +12,25 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 import dj_database_url
-from django.conf.global_settings import DATABASES
-
+from pathlib import Path
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "RuhpTWx-y6bHyM2BTHqJKq7QesjLfN7No3xALDBHbPDYniq59KU"
-
+SECRET_KEY = os.environ.get('SECRET_KEY', 'RuhpTWx-y6bHyM2BTHqJKq7QesjLfN7No3xALDBHbPDYniq59KU')
 
 DEBUG_PROPAGATE_EXCEPTIONS = True
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
+DEBUG = os.environ.get('DEBUG', 'True').lower() == 'true'
 
 ALLOWED_HOSTS = ['tttn-todo-app.onrender.com', 'localhost', '127.0.0.1']
 
-
 # Application definition
-
 INSTALLED_APPS = [
     # Our To-Do App
     'to_do.apps.ToDoConfig',
@@ -66,9 +60,9 @@ REST_FRAMEWORK = {
     )
 }
 
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # ADD THIS FOR STATIC FILES
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -98,11 +92,16 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'to_do_app.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES["default"] = dj_database_url.parse("postgresql://todolist_db_o5n3_user:ITnQTyAGyVoJlWmndWlv7N4iZ8fis4zA@dpg-d2i5gare5dus73eef4vg-a.oregon-postgres.render.com/todolist_db_o5n3")
+# Use environment variable for database URL, fallback to PostgreSQL
+DATABASE_URL = os.environ.get('DATABASE_URL',
+                              'postgresql://todolist_db_o5n3_user:ITnQTyAGyVoJlWmndWlv7N4iZ8fis4zA@dpg-d2i5gare5dus73eef4vg-a.oregon-postgres.render.com/todolist_db_o5n3')
+
+DATABASES = {
+    'default': dj_database_url.parse(DATABASE_URL)
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -122,25 +121,30 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# Static files directories - where Django looks for static files
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+    # Add paths to your app static directories if needed
+]
+
+# Static files storage for production
+if not DEBUG:
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # This is the Directory where the Uploaded images are kept on the File System
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -161,4 +165,3 @@ EMAIL_HOST_USER = os.environ.get('EMAIL_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASS')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
