@@ -43,7 +43,7 @@ urlpatterns = [
     path('register/', user_views.register, name='register'),
     # The template_name = 'some path' tells django to look for the login page in 'users' -> 'templates' Directory
     path('login/', auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
-    path('logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'),
+    path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
     # Including a EmailValidationOnForgotPassword class from users/forms.py - That tells the user that the entered
     # email during password reset is not a registered email (Not present in the system).
     path('password-reset/', auth_views.PasswordResetView.as_view(

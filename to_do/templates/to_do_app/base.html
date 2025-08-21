@@ -3,8 +3,8 @@
 <html lang="en">
 
 <head>
-<meta name="google-site-verification" content="TGQ1MIxiR7bOVmSGZ_CDPiBP7KwE8PIIlIlDt2Gk0fs" />
-<meta name="description" content="A To-do list application to save your tasks, mark them complete/incomplete. Powered by Django.">
+    <meta name="google-site-verification" content="TGQ1MIxiR7bOVmSGZ_CDPiBP7KwE8PIIlIlDt2Gk0fs" />
+    <meta name="description" content="A To-do list application to save your tasks, mark them complete/incomplete. Powered by Django.">
     <meta charset="UTF-8">
     <!-- Required meta tags -->
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -24,8 +24,8 @@
     <!-- Link to JavaScript File  -->
     <script type="text/javascript" src="{% static 'to_do_app/script.js' %}"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-    
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
 
     <!-- Popper.js and JS for Bootstrap -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -42,58 +42,63 @@
 </head>
 
 <body class="d-flex flex-column min-vh-100">
-    <header class="site-header">
-        <nav class="navbar navbar-expand-md navbar-dark bg-indigo fixed-top">
-            <a class="navbar-brand font-weight-bold" href="{% url 'index' %}" style="font-size: 38px;"><i class="fas fa-tasks"></i>&nbsp;<span class="brand_name">To-Do App</span></a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+<header class="site-header">
+    <nav class="navbar navbar-expand-md navbar-dark bg-indigo fixed-top">
+        <a class="navbar-brand font-weight-bold" href="{% url 'index' %}" style="font-size: 38px;"><i class="fas fa-tasks"></i>&nbsp;<span class="brand_name">To-Do App</span></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-            <!-- Navigation Bar Right side -->
-            <div class="collapse navbar-collapse" id="collapsibleNavbar">
-                <ul class="navbar-nav ml-auto">
-                    {% if user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'profile' %}" style="color: rgb(240, 229, 85);"
-                            title="View Profile">
-                            <img class="rounded-circle" width="28" height="28" src="{{ user.profile.image.url }}">
-                            <strong>{{ user.username }}</strong>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'tasks' %}" style="color: white;"><strong>My Tasks</strong></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'logout' %}" style="color: white;"><strong>Logout</strong></a>
-                    </li>
-                    {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'login' %}" style="color: white;">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'register' %}" style="color: white;">Register</a>
-                    </li>
-                    {% endif %}
-                </ul>
-            </div>
-
-        </nav>
-    </header>
-
-    <!-- Code for showing Flash Messages -->
-    <main role="main" class=" mt-6 container main-container">
-        {% if messages %}
-        {% for message in messages %}
-        <div class="alert alert-{{ message.tags }}">
-            {{ message }}
+        <!-- Navigation Bar Right side -->
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <ul class="navbar-nav ml-auto">
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'profile' %}" style="color: rgb(240, 229, 85);"
+                       title="View Profile">
+                        <img class="rounded-circle" width="28" height="28" src="{{ user.profile.image.url }}">
+                        <strong>{{ user.username }}</strong>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'tasks' %}" style="color: white;"><strong>My Tasks</strong></a>
+                </li>
+                <li class="nav-item">
+                    <form method="post" action="{% url 'logout' %}" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn_my_tasks" style="padding: 0.5rem 1rem; border: none; cursor: pointer;">
+                            <strong>Logout</strong>
+                        </button>
+                    </form>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login' %}" style="color: white;">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'register' %}" style="color: white;">Register</a>
+                </li>
+                {% endif %}
+            </ul>
         </div>
-        {% endfor %}
-        {% endif %}
-        {% block content %}{% endblock %}
-    </main>
-    <footer class="mt-auto">
-        <p class="m-auto">&copy; {{ year }} - All Rights Reserved</p>
-    </footer>
+
+    </nav>
+</header>
+
+<!-- Code for showing Flash Messages -->
+<main role="main" class=" mt-6 container main-container">
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% block content %}{% endblock %}
+</main>
+<footer class="mt-auto">
+    <p class="m-auto">&copy; {{ year }} - All Rights Reserved</p>
+</footer>
 </body>
 
 </html>
